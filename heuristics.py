@@ -15,7 +15,7 @@ def compute_explainability_score(tree):
     else:
         issues.append("Missing function docstrings")
 
-    # Heuristic 2: Variable name length
+    # Heuristic 2 Variable name length
     short_names = []
     allowed_short = {'i', 'j', 'x', 'y', '_'}
     for node in ast.walk(tree):
@@ -54,3 +54,4 @@ def compute_explainability_score(tree):
 
     final_score = max(min(score, max_score), 0)
     return round(final_score, 2), issues
+
