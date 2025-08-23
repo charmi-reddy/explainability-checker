@@ -1,52 +1,75 @@
-from flask import Flask, request, render_template, redirect, url_for
-import os
+from flask import Flask, render_template, request
 import ast
-import tokenize
-from io import BytesIO
 
 app = Flask(__name__)
-UPLOAD_FOLDER = 'uploads'
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# Dummy explainability checker function (replace with your real logic)
-def check_explainability(code):
-    score = 100.0
+def compute_explainability_score(tree):
+    score = 0
+    max_score = 100
     issues = []
 
-    tree = ast.parse(code)
-    funcs = [node for node in tree.body if isinstance(node, ast.FunctionDef)]
+    has_docstring = any(
+        isinstance(node, ast.FunctionDef) and ast.get_docstring(node)
+        for node in ast.walk(tree)
+    )
+    if has_docstring:
+        score += 10
+    else:
+        issues.append("Missing function docstrings")
 
-    for func in funcs:
-        if ast.get_docstring(func) is None:
-            score -= 33.3
-            issues.append(f"Function '{func.name}' is missing a docstring at line {func.lineno}.")
+    short_names = []
+    allowed_short = {'i', 'j', 'x', 'y', '_'}
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Name):
+            if len(node.id) < 3 and node.id not in allowed_short:
+                short_names.append((node.id, node.lineno))
+    if short_names:
+        issues += [f"Short variable name '{name}' at line {line}" for name, line in short_names]
+    else:
+        score += 10
 
-    tokens = tokenize.tokenize(BytesIO(code.encode('utf-8')).readline)
-    comments = [tok for tok in tokens if tok.type == tokenize.COMMENT]
-    if len(comments) == 0:
-        score -= 33.3
-        issues.append("No comments found in the file.")
+    has_functions = any(isinstance(node, ast.FunctionDef) for node in ast.walk(tree))
+    if has_functions:
+        score += 10
+    else:
+        issues.append("No functions found — code is not modular.")
 
-    if score < 100:
-        issues.append("Consider adding docstrings, comments, and proper naming.")
+    def get_max_depth(node, current_depth=0):
+        if not isinstance(node, (ast.If, ast.For, ast.While, ast.FunctionDef, ast.With, ast.Try)):
+            return current_depth
+        return max(
+            [get_max_depth(child, current_depth + 1) for child in ast.iter_child_nodes(node)] + [current_depth]
+        )
 
-    return round(max(score, 0), 2), issues
+    nesting_depths = [get_max_depth(node) for node in ast.walk(tree)]
+    max_nesting = max(nesting_depths, default=0)
 
-@app.route('/', methods=['GET', 'POST'])
+    if max_nesting > 2:
+        deduction = min((max_nesting - 2) * 5, 20)
+        score -= deduction
+        issues.append(f"Deep nesting detected — max depth {max_nesting}, penalized {deduction} points.")
+    else:
+        score += 10
+
+    final_score = max(min(score, max_score), 0)
+    return round(final_score, 2), issues
+
+@app.route("/", methods=["GET"])
 def index():
-    if request.method == 'POST':
-        file = request.files['file']
-        if file and file.filename.endswith('.py'):
-            filepath = os.path.join(UPLOAD_FOLDER, file.filename)
-            file.save(filepath)
-            with open(filepath, 'r') as f:
-                code = f.read()
-            score, issues = check_explainability(code)
-            return render_template('result.html', score=score, issues=issues)
-        else:
-            return redirect(url_for('index'))
-    return render_template('index.html')
+    return render_template("index.html")
 
-if __name__ == '__main__':
+@app.route("/check", methods=["POST"])
+def check_explainability():
+    file = request.files["file"]
+    if file and file.filename.endswith(".py"):
+        code = file.read().decode("utf-8")
+        try:
+            tree = ast.parse(code)
+            score, issues = compute_explainability_score(tree)
+            return render_template("index.html", score=score, issues=issues)
+        except SyntaxError:
+            return render_template("index.html", score=0, issues=["Syntax Error in file."])
+    return render_template("index.html", score=0, issues=["Please upload a valid .py file."])
+
+if __name__ == "__main__":
     app.run(debug=True)
-
