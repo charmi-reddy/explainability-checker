@@ -1,6 +1,5 @@
 from scorer import CodeAnalyzer
 from heuristics import compute_explainability_score
-
 def load_file(filepath):
     with open(filepath, 'r') as f:
         return f.read()
@@ -18,3 +17,4 @@ if __name__ == "__main__":
             print(f"- {issue}")
     else:
         print("No explainability issues found.")
+
