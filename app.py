@@ -44,7 +44,6 @@ def compute_explainability_score(tree):
         score += 10
     final_score = max(min(score, max_score), 0)
     return round(final_score, 2), issues
-
 @app.route("/", methods=["GET"])
 def index():
     return render_template("index.html")
@@ -64,6 +63,7 @@ def check_explainability():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
 
 
