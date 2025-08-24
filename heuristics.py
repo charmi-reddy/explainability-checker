@@ -32,7 +32,6 @@ def compute_explainability_score(tree):
         return max(
             [get_max_depth(child, current_depth + 1) for child in ast.iter_child_nodes(node)] + [current_depth]
         )
-
     nesting_depths = [get_max_depth(node) for node in ast.walk(tree)]
     max_nesting = max(nesting_depths, default=0)
 
@@ -45,6 +44,7 @@ def compute_explainability_score(tree):
 
     final_score = max(min(score, max_score), 0)
     return round(final_score, 2), issues
+
 
 
 
