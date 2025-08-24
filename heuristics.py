@@ -1,5 +1,4 @@
 import ast
-
 def compute_explainability_score(tree):
     score = 0
     max_score = 100
@@ -54,4 +53,5 @@ def compute_explainability_score(tree):
 
     final_score = max(min(score, max_score), 0)
     return round(final_score, 2), issues
+
 
