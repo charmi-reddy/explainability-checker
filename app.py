@@ -23,7 +23,6 @@ def compute_explainability_score(tree):
         issues += [f"Short variable name '{name}' at line {line}" for name, line in short_names]
     else:
         score += 10
-
     has_functions = any(isinstance(node, ast.FunctionDef) for node in ast.walk(tree))
     if has_functions:
         score += 10
@@ -69,6 +68,7 @@ def check_explainability():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
 
 
