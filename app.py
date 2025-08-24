@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request
 import ast
-
 app = Flask(__name__)
 
 def compute_explainability_score(tree):
@@ -73,3 +72,4 @@ def check_explainability():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
