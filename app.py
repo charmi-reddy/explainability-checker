@@ -47,7 +47,6 @@ def compute_explainability_score(tree):
 @app.route("/", methods=["GET"])
 def index():
     return render_template("index.html")
-
 @app.route("/check", methods=["POST"])
 def check_explainability():
     file = request.files["file"]
@@ -63,6 +62,7 @@ def check_explainability():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
 
 
