@@ -10,10 +10,10 @@ class CodeAnalyzer:
         print("AST Nodes:")
         for node in ast.walk(self.ast_tree):
             print(type(node).__name__)
-    
-    def print_tokens(self):
+        def print_tokens(self):
         print("Tokens:")
         for tok in self.tokens:
             print(tok)
+
 
 
