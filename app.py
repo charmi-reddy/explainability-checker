@@ -37,7 +37,6 @@ def compute_explainability_score(tree):
         )
     nesting_depths = [get_max_depth(node) for node in ast.walk(tree)]
     max_nesting = max(nesting_depths, default=0)
-
     if max_nesting > 2:
         deduction = min((max_nesting - 2) * 5, 20)
         score -= deduction
@@ -67,6 +66,7 @@ def check_explainability():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
 
 
