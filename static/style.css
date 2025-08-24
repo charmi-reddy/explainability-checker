@@ -6,7 +6,6 @@ body {
     display: flex;
     justify-content: center;
 }
-
 .container {
     background: white;
     padding: 2em 3em;
@@ -52,3 +51,4 @@ a {
     color: #4CAF50;
     text-decoration: none;
 }
+
