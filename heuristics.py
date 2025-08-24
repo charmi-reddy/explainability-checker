@@ -21,8 +21,6 @@ def compute_explainability_score(tree):
         issues += [f"Short variable name '{name}' at line {line}" for name, line in short_names]
     else:
         score += 10
-
-    # Heuristic 3: Modularity
     has_functions = any(isinstance(node, ast.FunctionDef) for node in ast.walk(tree))
     if has_functions:
         score += 10
@@ -49,6 +47,7 @@ def compute_explainability_score(tree):
 
     final_score = max(min(score, max_score), 0)
     return round(final_score, 2), issues
+
 
 
 
