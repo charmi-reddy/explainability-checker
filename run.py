@@ -6,7 +6,6 @@ def load_file(filepath):
 if __name__ == "__main__":
     code = load_file("sample.py")
     analyzer = CodeAnalyzer(code)
-
     score, issues = compute_explainability_score(analyzer.ast_tree)
     print(f"Explainability Score: {score}/100")
 
@@ -16,5 +15,6 @@ if __name__ == "__main__":
             print(f"- {issue}")
     else:
         print("No explainability issues found.")
+
 
 
