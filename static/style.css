@@ -23,7 +23,6 @@ form {
     flex-direction: column;
     gap: 1em;
 }
-
 input[type="file"] {
     padding: 0.5em;
     font-size: 1rem;
@@ -49,6 +48,7 @@ a {
     color: #4CAF50;
     text-decoration: none;
 }
+
 
 
 
