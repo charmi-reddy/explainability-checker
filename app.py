@@ -28,7 +28,6 @@ def compute_explainability_score(tree):
         score += 10
     else:
         issues.append("No functions found — code is not modular.")
-
     def get_max_depth(node, current_depth=0):
         if not isinstance(node, (ast.If, ast.For, ast.While, ast.FunctionDef, ast.With, ast.Try)):
             return current_depth
@@ -66,6 +65,7 @@ def check_explainability():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
 
 
