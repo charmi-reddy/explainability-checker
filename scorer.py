@@ -14,6 +14,3 @@ class CodeAnalyzer:
         print("Tokens:")
         for tok in self.tokens:
             print(tok)
-
-
-
