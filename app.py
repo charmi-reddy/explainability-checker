@@ -42,7 +42,6 @@ def compute_explainability_score(tree):
         issues.append(f"Deep nesting detected — max depth {max_nesting}, penalized {deduction} points.")
     else:
         score += 10
-
     final_score = max(min(score, max_score), 0)
     return round(final_score, 2), issues
 
@@ -65,6 +64,7 @@ def check_explainability():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
 
 
