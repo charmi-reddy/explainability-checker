@@ -1,6 +1,5 @@
 a = 10
 b = 20
-
 if a > 5:
     if b > 10:
         for i in range(5):
@@ -13,4 +12,5 @@ def f():
     y = 2
     z = x + y
     return z
+
 
