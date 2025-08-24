@@ -36,7 +36,6 @@ button {
     border-radius: 4px;
     cursor: pointer;
 }
-
 button:hover {
     background-color: #45a049;
 }
@@ -47,6 +46,7 @@ a {
     color: #4CAF50;
     text-decoration: none;
 }
+
 
 
 
