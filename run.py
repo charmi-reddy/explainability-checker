@@ -3,7 +3,6 @@ from heuristics import compute_explainability_score
 def load_file(filepath):
     with open(filepath, 'r') as f:
         return f.read()
-
 if __name__ == "__main__":
     code = load_file("sample.py")
     analyzer = CodeAnalyzer(code)
@@ -17,4 +16,5 @@ if __name__ == "__main__":
             print(f"- {issue}")
     else:
         print("No explainability issues found.")
+
 
