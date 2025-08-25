@@ -61,7 +61,3 @@ def check_explainability():
     return render_template("index.html", score=0, issues=["Please upload a valid .py file."])
 if __name__ == "__main__":
     app.run(debug=True)
-
-
-
-
