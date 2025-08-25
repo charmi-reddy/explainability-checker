@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 import ast
 app = Flask(__name__)
 def compute_explainability_score(tree):
-    score = 0
+    score = 0 
     max_score = 100
     issues = []
     has_docstring = any(
@@ -61,3 +61,4 @@ def check_explainability():
     return render_template("index.html", score=0, issues=["Please upload a valid .py file."])
 if __name__ == "__main__":
     app.run(debug=True)
+
