@@ -14,7 +14,7 @@ def compute_explainability_score(tree):
     else:
         issues.append("Missing function docstrings")  
     short_names = []
-    allowed_short = {'i', 'j', 'x', 'y', '_'}
+    allowed_short = {'i', 'j', 'x', 'y', '_'} 
     for node in ast.walk(tree):
         if isinstance(node, ast.Name):
             if len(node.id) < 3 and node.id not in allowed_short:
@@ -61,6 +61,7 @@ def check_explainability():
     return render_template("index.html", score=0, issues=["Please upload a valid .py file."])
 if __name__ == "__main__":
     app.run(debug=True)
+
 
 
 
