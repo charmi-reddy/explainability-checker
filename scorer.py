@@ -1,4 +1,4 @@
-import ast
+import ast 
 import tokenize
 from io import BytesIO
 class CodeAnalyzer:
@@ -14,3 +14,4 @@ class CodeAnalyzer:
         print("Tokens:")
         for tok in self.tokens:
             print(tok)
+
